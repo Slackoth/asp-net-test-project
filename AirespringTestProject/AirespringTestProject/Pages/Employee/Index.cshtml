@@ -1,0 +1,88 @@
+﻿@page
+@model AirespringTestProject.Pages.Employee.IndexModel
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="container p-3">
+    <form class="row pt-4" method="get" asp-page="Index">
+        <input hidden name="handler" value="SearchEmployee">
+        <div class="col-11">
+            <input class="form-control" type="text" placeholder="Employee last name or phone number..." name="SearchInput" id="searchInputId" />
+        </div>
+        <div class="col-1 text-end">
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </div>
+    </form>
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Employee List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-page="Add" class="btn btn-primary">Add New Employee </a>
+            <a asp-page="Index" class="btn btn-info">Refresh</a>
+        </div>
+    </div>
+    <br />
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone</th>
+                <th>Zip Code</th>
+                <th>Hire Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Employee in Model.Employees)
+            {
+                <tr>
+                    <td>@Employee.EmployeId</td>
+                    <td>@Employee.EmployeeFirstName</td>
+                    <td>@Employee.EmployeeLastName</td>
+                    <td>@string.Format("({0}) {1}-{2}", @Employee.EmployeePhone.Substring(0, 3), @Employee.EmployeePhone.Substring(3, 4), @Employee.EmployeePhone.Substring(7, 4))</td>
+                    <td>@string.Format("{0}-{1}", @Employee.EmployeeZip.Substring(0,5), @Employee.EmployeeZip.Substring(5,4))</td>
+                    <td>@Employee.HireDate.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        <div class="w-100 btn-group" role="group">
+                            <a asp-page="Edit" asp-route-id="@Employee.EmployeId" class="btn btn-warning mx-2">Edit</a>
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger mx-2" onclick="OnDeleteEmployee('@Employee.EmployeId')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts 
+{
+    <script>
+        function OnSearchEmployee() {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Page("")?handler=SearchEmployee",
+                data: { input: $('#searchInputId').val() },
+                contentType: "application/x-www-form-urlencoded",
+                dataType: "json"
+            })
+        }
+
+        function OnDeleteEmployee(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Page("")?handler=DeleteEmployee",
+                data: {id: parseFloat(id)},
+                contentType: "application/x-www-form-urlencoded",
+                dataType: "json",
+                headers: { "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val() },
+                success: function(response) {
+                    window.location.reload();
+                }
+            })
+        }
+    </script>
+}

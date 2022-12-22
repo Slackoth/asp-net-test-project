@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ATP.DataAccess\ATP.DataAccess.csproj" />
+    <ProjectReference Include="..\ATP.Model\ATP.Model.csproj" />
+    <ProjectReference Include="..\ATP.Util\ATP.Util.csproj" />
+  </ItemGroup>
+
+</Project>

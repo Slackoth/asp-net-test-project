@@ -1,0 +1,48 @@
+﻿@page
+@model AirespringTestProject.Pages.Employee.EditModel
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+<form method="post">
+    <input hidden asp-for="Employee.EmployeId">
+    <div class="border p-3 mt-4">
+        <h2 class="text-primary pl-3">Update Employee</h2><hr />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Employee.EmployeeFirstName" class="form-label">First Name</label>
+        <input asp-for="Employee.EmployeeFirstName" class="form-control">
+        <span asp-validation-for="Employee.EmployeeFirstName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Employee.EmployeeLastName" class="form-label">Last Name</label>
+        <input asp-for="Employee.EmployeeLastName" class="form-control">
+        <span asp-validation-for="Employee.EmployeeLastName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="DialingCode" class="form-label">Phone</label>
+        <div class="row">
+            <div class="col-3">
+                <input asp-for="DialingCode" class="form-control" placeholder="503">
+                <span asp-validation-for="DialingCode" class="text-danger"></span>
+            </div>
+            <div class="col-9">
+                <input asp-for="Phone" class="form-control">
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Employee.EmployeeZip" class="form-label">Zip Code</label>
+        <input asp-for="Employee.EmployeeZip" class="form-control">
+        <span asp-validation-for="Employee.EmployeeZip" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-page="Index" class="btn btn-secondary">Back To List</a>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
